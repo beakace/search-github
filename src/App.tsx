@@ -17,29 +17,32 @@ import PersonIcon from "@mui/icons-material/Person"
 import Typography from "@mui/material/Typography"
 import { blue } from "@mui/material/colors"
 import LinkIcon from "@mui/icons-material/Link"
+import IconButton from "@mui/material/IconButton"
+import CloseIcon from "@mui/icons-material/Close"
 
-const emails = ["Contributor 1", "Contributor 2"]
 interface SimpleDialogProps {
   open: boolean
-  selectedValue: string
-  onClose: (value: string) => void
+  //selectedValue: string
+  onClose: () => void
 }
 
 function App() {
   const [repoData, setRepoData] = useState([])
   const [query, setQuery] = useState("")
   const [open, setOpen] = useState(false)
-  const [selectedValue, setSelectedValue] = useState(emails[1])
-  //zmienic zeby sie nie wybieralo pozycji tylko linki do contributora
+  const [selectedId, setSelectedId] = useState(null)
 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
+  //const handleClickOpen = () => {
+  // setOpen(true)
+  //}
 
-  const handleClose = (value: string) => {
-    setOpen(false)
-    setSelectedValue(value)
-  }
+  const handleClose = () =>
+    // event: {},
+    // reason: "backdropClick" | "escapeKeyDown",
+    {
+      setOpen(false)
+    }
+
   useEffect(() => {
     if (query.length) {
       fetch(`https://api.github.com/search/repositories?q=${query}`)
@@ -53,82 +56,19 @@ function App() {
     }
   }, [query])
 
-  function SimpleDialog(props: SimpleDialogProps) {
-    const { onClose, selectedValue, open } = props
-
-    const handleClose = () => {
-      onClose(selectedValue)
-    }
-
-    const handleListItemClick = (value: string) => {
-      onClose(value)
-    }
-
-    return (
-      <Dialog onClose={handleClose} open={open}>
-        <DialogTitle>Repository Name</DialogTitle>
-        <Typography>
-          Repository's description - this field will contain some text.
-        </Typography>
-        <List sx={{ pt: 0 }}>
-          {emails.map((email) => (
-            <ListItem
-              button
-              onClick={() => handleListItemClick(email)}
-              key={email}
-            >
-              <ListItemAvatar>
-                <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                  <PersonIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={email} />
-            </ListItem>
-          ))}
-          <ListItem
-            autoFocus
-            button
-            onClick={() => handleListItemClick("addAccount")}
-            // zmienić zeby tu byl link do html repo
-          >
-            <ListItemAvatar>
-              <Avatar>
-                <LinkIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Go to repository's Github page" />
-          </ListItem>
-        </List>
-      </Dialog>
-    )
-  }
-  function SimpleDialogDemo() {
-    return (
-      <div>
-        <Typography variant="subtitle1" component="div">
-          Selected: {selectedValue}
-        </Typography>
-        <br />
-        <Button variant="outlined" onClick={handleClickOpen}>
-          Open simple dialog
-        </Button>
-        <SimpleDialog
-          selectedValue={selectedValue}
-          open={open}
-          onClose={handleClose}
-        />
-      </div>
-    )
-  }
   function BasicList() {
     return (
       <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         <nav aria-label="secondary mailbox folders">
           <List>
-            {repoData.map(({ name, id, html_url }) => (
+            {repoData.map(({ name, id }) => (
               <ListItem key={id} disablePadding>
-                <ListItemButton onClick={handleClickOpen}>
-                  <ListItemText primary={`${name} ${id} ${html_url}`} />
+                <ListItemButton
+                  onClick={() => {
+                    setSelectedId(id)
+                  }}
+                >
+                  <ListItemText primary={name} />
                 </ListItemButton>
               </ListItem>
             ))}
@@ -137,7 +77,89 @@ function App() {
       </Box>
     )
   }
+  const selectedRepo = useMemo(() => {
+    if (!selectedId) {
+      return null
+    }
+    return repoData.find(({ id }) => id === selectedId)
+  }, [repoData, selectedId])
 
+  if (selectedRepo != null) {
+    console.log(selectedRepo["html_url"])
+  }
+
+  const contributors = [
+    selectedRepo != null ? selectedRepo["contributors_url"] : "lol",
+  ]
+  function SimpleDialog(props: SimpleDialogProps) {
+    //const { onClose } = props
+
+    // const handleClose = (
+    //   event: {},
+    //   reason: "backdropClick" | "escapeKeyDown",
+    // ) => {
+    //   setOpen(false)
+    // }
+
+    // const handleListItemClick = (value: string) => {
+    //   onClose(value)
+    // }
+
+    return (
+      <Dialog onClose={handleClose} open={!!selectedRepo}>
+        <DialogTitle>
+          {selectedRepo != null ? selectedRepo["name"] : "name"}
+          <IconButton onClick={() => setOpen(false)}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <Typography>
+          {selectedRepo != null ? selectedRepo["description"] : "description"}
+        </Typography>
+        <List sx={{ pt: 0 }}>
+          {contributors.map((contributors) => (
+            <ListItem
+              button
+              // onClick={() => handleListItemClick(contributors)}
+              key={contributors}
+            >
+              <ListItemAvatar>
+                <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
+                  <PersonIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={contributors} />
+            </ListItem>
+          ))}
+          <ListItem
+            component="a"
+            href={selectedRepo != null ? selectedRepo["html_url"] : "url"}
+            target="_blank"
+            autoFocus
+            button
+            // onClick={() => handleListItemClick("addAccount")}
+          >
+            <ListItemAvatar>
+              <Avatar>
+                <LinkIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Open this repository on github.com" />
+          </ListItem>
+        </List>
+      </Dialog>
+    )
+  }
+  function SimpleDialogDemo() {
+    return (
+      <div>
+        <Typography variant="subtitle1" component="div"></Typography>
+        <br />
+        <Button variant="outlined">Open simple dialog</Button>
+        <SimpleDialog open={open} onClose={handleClose} />
+      </div>
+    )
+  }
   function SearchBar() {
     const changeHandler = (event) => {
       setQuery(event.target.value)
