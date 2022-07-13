@@ -6,37 +6,15 @@ import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemText from "@mui/material/ListItemText"
-<<<<<<< Updated upstream
-import Stack from "@mui/material/Stack"
-import Button from "@mui/material/Button"
-import debounce from "lodash.debounce"
-=======
 import Results from "./Results"
 import { Routes, Route, useNavigate } from "react-router-dom"
->>>>>>> Stashed changes
 
 function App() {
   const [repoData, setRepoData] = useState([])
   const [query, setQuery] = useState("")
-<<<<<<< Updated upstream
-
-  useEffect(() => {
-    if (query.length) {
-      fetch(`https://api.github.com/search/repositories?q=${query}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data)
-          setRepoData(data.items)
-        })
-    } else {
-      setRepoData([])
-    }
-  }, [query])
-=======
   const [selectedId, setSelectedId] = useState(null)
   const [contributors, setContributors] = useState([])
   let navigate = useNavigate()
->>>>>>> Stashed changes
 
   function BasicList() {
     return (
@@ -45,10 +23,6 @@ function App() {
           <List>
             {repoData.map(({ name, id }) => (
               <ListItem key={id} disablePadding>
-<<<<<<< Updated upstream
-                <ListItemButton>
-                  <ListItemText primary={`${name} ${id}`} />
-=======
                 <ListItemButton
                   onClick={() => {
                     setSelectedId(id)
@@ -56,7 +30,6 @@ function App() {
                   }}
                 >
                   <ListItemText primary={name} />
->>>>>>> Stashed changes
                 </ListItemButton>
               </ListItem>
             ))}
@@ -65,12 +38,6 @@ function App() {
       </Box>
     )
   }
-<<<<<<< Updated upstream
-
-  function SearchBar() {
-    const changeHandler = (event) => {
-      setQuery(event.target.value)
-=======
   const selectedRepo = useMemo(() => {
     if (!selectedId) {
       return null
@@ -90,7 +57,6 @@ function App() {
           //console.log("Contributors:", data)
           setContributors(data)
         })
->>>>>>> Stashed changes
     }
   }, [selectedRepo])
 
