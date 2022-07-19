@@ -6,12 +6,13 @@ import ListItemText from "@mui/material/ListItemText"
 import Collapse from "@mui/material/Collapse"
 import ExpandLess from "@mui/icons-material/ExpandLess"
 import ExpandMore from "@mui/icons-material/ExpandMore"
-import { Link } from "react-router-dom"
 import { Typography } from "@mui/material"
 import StarBorderIcon from "@mui/icons-material/StarBorder"
 import LinkIcon from "@mui/icons-material/Link"
 import PersonIcon from "@mui/icons-material/Person"
 import GroupsIcon from "@mui/icons-material/Groups"
+import { Stack } from "@mui/material"
+import Button from "@mui/material/Button"
 
 function ResultsList(props) {
   const [open, setOpen] = React.useState(false)
@@ -22,11 +23,15 @@ function ResultsList(props) {
 
   return (
     <List
-      sx={{ width: "100%", maxWidth: 360, bgcolor: "transparent" }}
+      sx={{
+        width: "100%",
+        maxWidth: 500,
+        bgcolor: "transparent",
+      }}
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={
-        <Typography>
+        <Typography variant="h3">
           <strong>Name: </strong>
           {props.selectedRepo != null
             ? props.selectedRepo["name"]
@@ -83,7 +88,12 @@ function ResultsList(props) {
           ))}
         </List>
       </Collapse>
-      <Link to="/">Search again</Link>
+
+      <Stack spacing={2} direction="column">
+        <Button href="/" variant="outlined" size="large" color="secondary">
+          Search for something else
+        </Button>
+      </Stack>
     </List>
   )
 }

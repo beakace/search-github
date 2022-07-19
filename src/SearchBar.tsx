@@ -10,9 +10,11 @@ function SearchBar(props) {
 
   function startSearch() {
     if (props.query.length) {
+      props.setLoading(true)
       fetch(`https://api.github.com/search/repositories?q=${props.query}`)
         .then((response) => response.json())
         .then((data) => {
+          props.setLoading(false)
           // console.log("Success:", data)
           props.setRepoData(data.items)
         })

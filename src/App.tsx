@@ -6,14 +6,16 @@ import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemText from "@mui/material/ListItemText"
-import Results from "./Results"
+import ResultsList from "./Results"
 import { Routes, Route, useNavigate } from "react-router-dom"
+import ClipLoader from "react-spinners/ClipLoader"
 
 function App() {
   const [repoData, setRepoData] = useState([])
   const [query, setQuery] = useState("")
   const [selectedId, setSelectedId] = useState(null)
   const [contributors, setContributors] = useState([])
+  const [loading, setLoading] = useState(false)
   let navigate = useNavigate()
 
   function BasicList() {
@@ -62,25 +64,41 @@ function App() {
 
   return (
     <div className="App">
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <SearchBar
-              query={query}
-              setQuery={setQuery}
-              setRepoData={setRepoData}
+      <div className="container">
+        {loading ? (
+          <div className="loader-container">
+            <ClipLoader color={"#fff"} size={60} />
+          </div>
+        ) : (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  {" "}
+                  <SearchBar
+                    query={query}
+                    setQuery={setQuery}
+                    setRepoData={setRepoData}
+                    setLoading={setLoading}
+                  />
+                  <BasicList />
+                </>
+              }
             />
-          }
-        />
-        <Route
-          path="/results"
-          element={
-            <Results selectedRepo={selectedRepo} contributors={contributors} />
-          }
-        />
-      </Routes>
-      <BasicList />
+
+            <Route
+              path="results"
+              element={
+                <ResultsList
+                  selectedRepo={selectedRepo}
+                  contributors={contributors}
+                />
+              }
+            />
+          </Routes>
+        )}
+      </div>
     </div>
   )
 }
