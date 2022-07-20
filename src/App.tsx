@@ -28,7 +28,7 @@ function App() {
                 <ListItemButton
                   onClick={() => {
                     setSelectedId(id)
-                    navigate("/results")
+                    navigate(`/results/${id}`)
                   }}
                 >
                   <ListItemText primary={name} />
@@ -40,6 +40,7 @@ function App() {
       </Box>
     )
   }
+
   const selectedRepo = useMemo(() => {
     if (!selectedId) {
       return null
@@ -88,7 +89,7 @@ function App() {
             />
 
             <Route
-              path="results"
+              path="/results/:id"
               element={
                 <ResultsList
                   selectedRepo={selectedRepo}
