@@ -2,16 +2,18 @@ import TextField from "@mui/material/TextField"
 import { Box } from "@mui/system"
 import { Stack } from "@mui/material"
 import Button from "@mui/material/Button"
+import { useState } from "react"
 
 function SearchBar(props) {
+  const [query, setQuery] = useState("")
   const changeHandler = (event) => {
-    props.setQuery(event.target.value)
+    setQuery(event.target.value)
   }
 
   function startSearch() {
-    if (props.query.length) {
+    if (query.length) {
       props.setLoading(true)
-      fetch(`https://api.github.com/search/repositories?q=${props.query}`)
+      fetch(`https://api.github.com/search/repositories?q=${query}`)
         .then((response) => response.json())
         .then((data) => {
           props.setLoading(false)
@@ -36,7 +38,7 @@ function SearchBar(props) {
         id="outlined-basic"
         label="Search for repos"
         variant="outlined"
-        value={props.query}
+        value={query}
         onChange={changeHandler}
       />
       <Stack spacing={2} direction="column">
