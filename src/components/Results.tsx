@@ -14,7 +14,7 @@ import GroupsIcon from "@mui/icons-material/Groups"
 import { Stack } from "@mui/material"
 import Button from "@mui/material/Button"
 
-function ResultsList(props) {
+function Results(props) {
   const [open, setOpen] = React.useState(false)
 
   const handleClick = () => {
@@ -98,4 +98,4 @@ function ResultsList(props) {
   )
 }
 
-export default ResultsList
+export default Results

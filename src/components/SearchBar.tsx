@@ -40,7 +40,12 @@ function SearchBar(props) {
         onChange={changeHandler}
       />
       <Stack spacing={2} direction="column">
-        <Button onClick={startSearch} variant="contained" size="large">
+        <Button
+          type="submit"
+          onClick={startSearch}
+          variant="contained"
+          size="large"
+        >
           Search
         </Button>
       </Stack>

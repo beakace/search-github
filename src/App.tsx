@@ -1,12 +1,8 @@
 import { useState, useMemo } from "react"
 import "./App.css"
-import SearchBar from "./SearchBar"
-import { Box } from "@mui/system"
-import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
-import ListItemButton from "@mui/material/ListItemButton"
-import ListItemText from "@mui/material/ListItemText"
-import ResultsList from "./Results"
+import SearchBar from "./components/SearchBar"
+import BasicList from "./components/BasicList"
+import ResultsList from "./components/Results"
 import { Routes, Route, useNavigate } from "react-router-dom"
 import ClipLoader from "react-spinners/ClipLoader"
 
@@ -17,29 +13,6 @@ function App() {
   const [contributors, setContributors] = useState([])
   const [loading, setLoading] = useState(false)
   let navigate = useNavigate()
-
-  function BasicList() {
-    return (
-      <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        <nav aria-label="secondary mailbox folders">
-          <List>
-            {repoData.map(({ name, id }) => (
-              <ListItem key={id} disablePadding>
-                <ListItemButton
-                  onClick={() => {
-                    setSelectedId(id)
-                    navigate(`/results/${id}`)
-                  }}
-                >
-                  <ListItemText primary={name} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </nav>
-      </Box>
-    )
-  }
 
   const selectedRepo = useMemo(() => {
     if (!selectedId) {
@@ -83,7 +56,11 @@ function App() {
                     setRepoData={setRepoData}
                     setLoading={setLoading}
                   />
-                  <BasicList />
+                  <BasicList
+                    setSelectedId={setSelectedId}
+                    navigate={navigate}
+                    repoData={repoData}
+                  />
                 </>
               }
             />
