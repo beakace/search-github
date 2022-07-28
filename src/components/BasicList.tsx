@@ -4,18 +4,19 @@ import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemText from "@mui/material/ListItemText"
+import { useNavigate } from "react-router-dom"
 
-function BasicList(props) {
+export function BasicList(props) {
+  const navigate = useNavigate()
   return (
     <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       <nav aria-label="secondary mailbox folders">
         <List>
-          {props.repoData.map(({ name, id }) => (
+          {props.repoData.map(({ name, id, owner }) => (
             <ListItem key={id} disablePadding>
               <ListItemButton
                 onClick={() => {
-                  props.setSelectedId(id)
-                  props.navigate(`/results/${id}`)
+                  navigate(`/repo/${owner.login}/${name}`)
                 }}
               >
                 <ListItemText primary={name} />
@@ -27,5 +28,3 @@ function BasicList(props) {
     </Box>
   )
 }
-
-export default BasicList
