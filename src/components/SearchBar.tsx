@@ -2,34 +2,29 @@ import TextField from "@mui/material/TextField"
 import { Box } from "@mui/system"
 import { Stack } from "@mui/material"
 import Button from "@mui/material/Button"
-import { useState } from "react"
-// import { useSearchParams } from "react-router-dom"
+import { useCallback, useEffect, useState } from "react"
 
 function SearchBar(props) {
-  // let [searchParams, setSearchParams] = useSearchParams()
   const [query, setQuery] = useState("")
-  // const queryParams = searchParams.get('search')
+  const { searchQuery, setSearchParams } = props
 
   const changeHandler = (event) => {
     setQuery(event.target.value)
   }
 
-  function startSearch() {
-    if (query.length) {
-      props.setLoading(true)
-      fetch(`https://api.github.com/search/repositories?q=${query}`)
-        .then((response) => response.json())
-        .then((data) => {
-          props.setLoading(false)
-          // console.log("Success:", data)
-          props.setRepoData(data.items)
-          // setSearchParams({ search: `${query}` })
-          // console.log(searchParams)
-        })
-    } else {
-      props.setRepoData([])
+  useEffect(() => {
+    if (searchQuery) {
+      setQuery(searchQuery)
     }
-  }
+  }, [searchQuery])
+
+  const startSearch = useCallback(
+    (event) => {
+      event.preventDefault()
+      setSearchParams({ query: query }, { replace: true })
+    },
+    [query, setSearchParams],
+  )
 
   return (
     <Box
