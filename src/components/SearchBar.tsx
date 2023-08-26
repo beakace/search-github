@@ -41,11 +41,11 @@ function SearchBar(props) {
             color: "rgba(40, 46, 55, 0.9)",
             textTransform: "uppercase",
             fontFamily: "Lexend, sans-serif",
-            fontWeight: "bold",
+            fontWeight: "normal",
             marginBottom: "20px",
           }}
         >
-          Github search
+          <strong>Github</strong> search
         </Typography>
         <div style={{ width: "500px", margin: "auto", paddingBottom: "30px" }}>
           <TextField
