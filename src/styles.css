@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
+.App {
+  width: 100vw;
+  height: 200vh;
+  flex-direction: column;
+  font-family: "Lexend", sans-serif;
+  background-color: #9fa4c4;
+  background-image: linear-gradient(315deg, #e3e6fd 0%, #d3d8fa 74%);
+}
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  height: 100vh; /* Adjust to your desired height */
+}
+
+.search-input {
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  width: auto;
+}
+.search-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding-top: 100px;
+}
+
+.list-results-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding-top: 150px;
+}
+
+.results-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding-top: 100px;
+}
+
+.results-element {
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+.title {
+  padding-top: 40px;
+  text-align: center;
+  background-color: #ebedfbe3;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.content {
+  padding: 20px 40px 40px;
+  background-color: #ebedfbe3;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.back-button {
+  margin-top: 50px;
+  padding: 20px 40px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}

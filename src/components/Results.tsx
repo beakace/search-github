@@ -22,79 +22,106 @@ function Results(props) {
   }
 
   return (
-    <List
-      sx={{
-        width: "100%",
-        maxWidth: 500,
-        bgcolor: "transparent",
-      }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <Typography variant="h3">
-          <strong>Name: </strong>
-          {props.selectedRepo != null
-            ? props.selectedRepo["name"]
-            : "Choose repository"}
-        </Typography>
-      }
-    >
-      <Typography>
-        <strong>Description: </strong>
-        {props.selectedRepo != null
-          ? props.selectedRepo["description"]
-          : "description"}
-      </Typography>
-      <Typography>
-        <strong>Stars count: </strong>
-        {props.selectedRepo != null
-          ? props.selectedRepo["stargazers_count"]
-          : "Choose repository"}
-        <StarBorderIcon />
-      </Typography>
-      <ListItemButton
-        href={
-          props.selectedRepo != null ? props.selectedRepo["html_url"] : "url"
+    <div className="results-page ">
+      <List
+        className="results-element"
+        sx={{
+          width: "100%",
+          maxWidth: 500,
+          bgcolor: "transparent",
+        }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <Typography
+            className="title"
+            variant="h4"
+            style={{ fontFamily: "Lexend, sans-serif" }}
+          >
+            Name:{" "}
+            {props.selectedRepo != null
+              ? props.selectedRepo["name"]
+              : "Choose repository"}
+          </Typography>
         }
-        target="_blank"
       >
-        <ListItemIcon>
-          <LinkIcon />
-        </ListItemIcon>
-        <ListItemText primary="Go to this repository's Github page" />
-      </ListItemButton>
+        <div className="content">
+          <Typography>
+            <strong>Description: </strong>
+            {props.selectedRepo != null
+              ? props.selectedRepo["description"]
+              : "description"}
+          </Typography>
+          <Typography
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              alignItems: "center",
+              /* other styles you might have */
+            }}
+          >
+            <strong>Stars count: </strong>
+            {props.selectedRepo != null
+              ? props.selectedRepo["stargazers_count"]
+              : "Choose repository"}{" "}
+            <StarBorderIcon />
+          </Typography>
+          <ListItemButton
+            href={
+              props.selectedRepo != null
+                ? props.selectedRepo["html_url"]
+                : "url"
+            }
+            target="_blank"
+          >
+            <ListItemIcon>
+              <LinkIcon />
+            </ListItemIcon>
+            <ListItemText primary="Go to this repository's Github page" />
+          </ListItemButton>
 
-      <ListItemButton onClick={handleClick}>
-        <ListItemIcon>
-          <GroupsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Contributors" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {props.contributors.map(({ login, id, html_url }) => (
-            <ListItemButton
-              key={id}
-              sx={{ pl: 4 }}
-              href={html_url}
-              target="_blank"
-            >
-              <ListItemIcon>
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary={login} />
-            </ListItemButton>
-          ))}
-        </List>
-      </Collapse>
-
-      <Stack spacing={2} direction="column">
-        <Button href="/" variant="outlined" size="large" color="secondary">
+          <ListItemButton onClick={handleClick}>
+            <ListItemIcon>
+              <GroupsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Contributors" />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {props.contributors.map(({ login, id, html_url }) => (
+                <ListItemButton
+                  key={id}
+                  sx={{ pl: 4 }}
+                  href={html_url}
+                  target="_blank"
+                >
+                  <ListItemIcon>
+                    <PersonIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={login} />
+                </ListItemButton>
+              ))}
+            </List>
+          </Collapse>
+        </div>
+      </List>
+      <Stack spacing={2} direction="column" className="back-button">
+        <Button
+          href="/"
+          variant="contained"
+          style={{
+            backgroundColor: "rgba(50,50, 255, 0.2)",
+            color: "rgba(40, 46, 55, 0.9)",
+            fontSize: "18px",
+            fontFamily: "Lexend, sans-serif",
+          }}
+          size="large"
+        >
           Search for something else
         </Button>
       </Stack>
-    </List>
+    </div>
   )
 }
 

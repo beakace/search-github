@@ -1,4 +1,4 @@
-import "./App.css"
+import "./styles.css"
 import { Routes, Route } from "react-router-dom"
 import { SearchPage } from "./pages/SearchPage"
 import { RepoPage } from "./pages/RepoPage"

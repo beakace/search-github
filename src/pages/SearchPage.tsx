@@ -27,18 +27,22 @@ export function SearchPage() {
 
   return loading ? (
     <div className="loader-container">
-      <ClipLoader color={"#fff"} size={60} />
+      <div className="spinner">
+        <ClipLoader color={"gray"} size={90} />
+      </div>
     </div>
   ) : (
     <>
-      <SearchBar
-        setRepoData={setRepoData}
-        setLoading={setLoading}
-        searchParams={searchParams}
-        searchQuery={searchQuery}
-        setSearchParams={setSearchParams}
-      />
-      {repoData && <BasicList repoData={repoData} />}
+      <div className="search-page">
+        <SearchBar
+          setRepoData={setRepoData}
+          setLoading={setLoading}
+          searchParams={searchParams}
+          searchQuery={searchQuery}
+          setSearchParams={setSearchParams}
+        />
+        {repoData && <BasicList repoData={repoData} />}
+      </div>
     </>
   )
 }
